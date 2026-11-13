@@ -1,0 +1,164 @@
+/* ============================
+   MANAGE CARS - FORM STYLES 
+============================ */
+.car-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.car-form input,
+.car-form textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+.image-upload-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #333;
+  font-size: 14px;
+}
+
+.image-upload-field input {
+  padding: 8px;
+}
+
+.image-upload-field span {
+  color: #666;
+  font-size: 12px;
+}
+
+.car-form textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* --- Layout Fix (Crucial for side-by-side inputs) --- */
+.car-form .input-row {
+    display: flex;
+    gap: 15px; /* Space between the two inputs */
+    width: 100%;
+    margin-bottom: 5px; /* Spacing between rows */
+}
+
+.car-form .input-row input {
+    flex-grow: 1; /* Makes both inputs take up equal space */
+    width: auto;
+}
+
+/* ============================
+   FORM ACTION BUTTONS 
+============================ */
+.btn-add, .btn-update {
+  background-color: #2563eb; /* Matches active menu color */
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.btn-add:hover, .btn-update:hover {
+  background-color: #1a5dd8;
+}
+
+/* Style for the "Cancel Edit" button (btn-secondary) */
+.btn-secondary {
+    background-color: #6c757d; /* Gray color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+    margin-top: 5px; 
+    display: block; 
+    width: 100%; 
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* ============================
+   CAR TABLE STYLES
+============================ */
+.car-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  margin-top: 25px; /* Space from the form above */
+}
+
+.car-table th {
+  background: #2563eb; /* Matches primary theme color */
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.car-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+/* Image styling within the table */
+.thumbnail {
+  width: 120px;       /* fixed width */
+  height: 80px;       /* fixed height */
+  object-fit: cover;  /* ensures image fills the box without stretching */
+  border-radius: 6px; /* optional, makes it look nicer */
+  display: block;
+  margin: 0 auto;     /* centers the image in the table cell */
+}
+
+
+/* ============================
+   ACTION BUTTONS IN TABLE (Edit/Delete)
+============================ */
+.btn-edit {
+  background-color: #ffb400; /* Yellow/Orange */
+  border: none;
+  padding: 7px 12px;
+  color: white;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-edit:hover {
+  background-color: #d99800;
+}
+
+.btn-delete {
+  background-color: #ff4d4d; /* Red */
+  border: none;
+  padding: 7px 12px;
+  color: white;
+  font-size: 13px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background-color: #d93636;
+}
