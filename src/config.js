@@ -3,20 +3,22 @@ const configuredApiUrls = [
   import.meta.env.VITE_API_URL,
 ].filter((value) => typeof value === "string" && value.trim());
 
-const isLoopbackUrl = (value) => {
+const normalizeApiUrl = (value) => {
   try {
-    return ["localhost", "127.0.0.1", "::1"].includes(new URL(value).hostname);
+    const url = new URL(
+      value.includes("://")
+        ? value
+        : `${import.meta.env.PROD ? "https" : "http"}://${value}`
+    );
+    if (!["http:", "https:"].includes(url.protocol)) return null;
+    return url.origin;
   } catch {
-    return false;
+    return null;
   }
 };
 
 const configuredApiUrl = import.meta.env.PROD
-  ? configuredApiUrls.find((value) => !isLoopbackUrl(value))
-  : configuredApiUrls[0];
-
-const fallbackApiUrl = import.meta.env.PROD
   ? "https://driveeasy-backend.vercel.app"
-  : "http://localhost:5000";
+  : configuredApiUrls.map(normalizeApiUrl).find(Boolean) || "http://localhost:5000";
 
-export const API_BASE_URL = (configuredApiUrl || fallbackApiUrl).replace(/\/+$/, "");
+export const API_BASE_URL = configuredApiUrl;
