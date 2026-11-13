@@ -1,7 +1,6 @@
 // App.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
@@ -12,7 +11,7 @@ import Home from "./components/Home";
 import Cars from "./components/Cars";
 import Contact from "./components/Contact";
 import About from "./components/About";
-import Booking from "./components/Booking";
+import Booking from "./components/booking"; // Ensure casing matches your actual filename (Booking or booking)
 import AdminDashboard from "./components/AdminDashboard";
 import SuperAdminDashboard from "./components/SuperAdminDashboard";
 import ManageCars from "./components/ManageCars";
@@ -22,7 +21,7 @@ import MessageWidget from "./components/MessageWidget";
 
 import "./App.css";
 
-function App() {
+export default function App() {
   // ✅ Load user from localStorage if exists
   const [user, setUser] = useState(() => {
     const token = localStorage.getItem("authToken");
@@ -60,59 +59,50 @@ function App() {
 
   return (
     <>
-    <Routes>
-      {/* 🔁 ROOT ROUTE */}
-      <Route
-        path="/"
-        element={
-          !isLoggedIn ? (
-            <Navigate to="/login" replace />
-          ) : isAdmin ? (
-            user.role === "superadmin" ? (
-              <SuperAdminDashboard onLogout={handleLogout} />
+      <Routes>
+        {/* 🔁 ROOT ROUTE */}
+        <Route
+          path="/"
+          element={
+            !isLoggedIn ? (
+              <Navigate to="/login" replace />
+            ) : isAdmin ? (
+              user.role === "superadmin" ? (
+                <SuperAdminDashboard onLogout={handleLogout} />
+              ) : (
+                <AdminDashboard onLogout={handleLogout} role={user.role} />
+              )
             ) : (
-              <AdminDashboard onLogout={handleLogout} role={user.role} />
+              <Home onLogout={handleLogout} />
             )
-          ) : (
-            <Home onLogout={handleLogout} />
-          )
-        }
-      />
+          }
+        />
 
-      {/* 🔓 PUBLIC ROUTES */}
-      <Route path="/login" element={<Login onLogin={handleLogin} />} />
-      <Route path="/signup" element={<Signup />} />
+        {/* 🔓 PUBLIC ROUTES */}
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/signup" element={<Signup />} />
 
-      {/* 👤 USER ROUTES */}
-      {isLoggedIn && !isAdmin && (
-        <>
-          <Route path="/cars" element={<Cars onLogout={handleLogout} />} />
-          <Route path="/contact" element={<Contact onLogout={handleLogout} />} />
-          <Route path="/about" element={<About onLogout={handleLogout} />} />
-          <Route path="/booking" element={<Booking />} />
-        </>
+        {/* 👤 USER ROUTES */}
+        {isLoggedIn && !isAdmin && (
+          <>
+            <Route path="/cars" element={<Cars onLogout={handleLogout} />} />
+            <Route path="/contact" element={<Contact onLogout={handleLogout} />} />
+            <Route path="/about" element={<About onLogout={handleLogout} />} />
+            <Route path="/booking" element={<Booking />} />
+          </>
+        )}
+
+        {/* 🔐 ADMIN ROUTES */}
+        {isLoggedIn && isAdmin && (
+          <Route path="/manage-cars" element={<ManageCars role={user.role} />} />
+        )}
+
+        {/* ❌ FALLBACK FOR UNKNOWN ROUTES */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      {isLoggedIn && user.role !== "superadmin" && (
+        <MessageWidget token={user.token} role={user.role} />
       )}
-
-      {/* 🔐 ADMIN ROUTES */}
-      {isLoggedIn && isAdmin && (
-        <Route path="/manage-cars" element={<ManageCars role={user.role} />} />
-      )}
-
-      {/* ❌ FALLBACK FOR UNKNOWN ROUTES */}
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
-    {isLoggedIn && user.role !== "superadmin" && (
-      <MessageWidget token={user.token} role={user.role} />
-    )}
     </>
-  );
-}
-
-// ✅ WRAPPER TO PROVIDE ROUTER
-export default function AppWrapper() {
-  return (
-    <Router>
-      <App />
-    </Router>
   );
 }
