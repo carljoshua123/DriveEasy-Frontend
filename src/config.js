@@ -16,7 +16,7 @@ const configuredApiUrl = import.meta.env.PROD
   : configuredApiUrls[0];
 
 const fallbackApiUrl = import.meta.env.PROD
-  ? "https://drive-easy-backend-lkui.vercel.app"
+  ? "https://driveeasy-backend.vercel.app"
   : "http://localhost:5000";
 
 export const API_BASE_URL = (configuredApiUrl || fallbackApiUrl).replace(/\/+$/, "");
